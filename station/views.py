@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db.models import Count, F, QuerySet
 from rest_framework import mixins, serializers, viewsets
 from rest_framework.pagination import PageNumberPagination
@@ -49,6 +51,20 @@ class RouteViewSet(
     queryset = Route.objects.select_related("source", "destination")
     serializer_class = RouteSerializer
 
+    def get_queryset(self) -> QuerySet:
+        queryset = self.queryset
+        source = self.request.query_params.get("source")
+        destination = self.request.query_params.get("destination")
+
+        if source:
+            queryset = queryset.filter(source__name__icontains=source)
+        if destination:
+            queryset = queryset.filter(
+                destination__name__icontains=destination
+            )
+
+        return queryset
+
     def get_serializer_class(self) -> type[serializers.Serializer]:
         if self.action == "list":
             return RouteListSerializer
@@ -75,6 +91,15 @@ class TrainViewSet(
     queryset = Train.objects.select_related("train_type")
     serializer_class = TrainSerializer
 
+    def get_queryset(self) -> QuerySet:
+        queryset = self.queryset
+        train_type = self.request.query_params.get("train_type")
+
+        if train_type:
+            queryset = queryset.filter(train_type_id=int(train_type))
+
+        return queryset
+
     def get_serializer_class(self) -> type[serializers.Serializer]:
         if self.action == "list":
             return TrainListSerializer
@@ -98,6 +123,22 @@ class JourneyViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self) -> QuerySet:
         queryset = self.queryset
+        source = self.request.query_params.get("source")
+        destination = self.request.query_params.get("destination")
+        date = self.request.query_params.get("date")
+        train = self.request.query_params.get("train")
+
+        if source:
+            queryset = queryset.filter(route__source__name__icontains=source)
+        if destination:
+            queryset = queryset.filter(
+                route__destination__name__icontains=destination
+            )
+        if date:
+            date = datetime.strptime(date, "%Y-%m-%d").date()
+            queryset = queryset.filter(departure_time__date=date)
+        if train:
+            queryset = queryset.filter(train_id=int(train))
 
         if self.action in ("list", "retrieve"):
             queryset = queryset.select_related(

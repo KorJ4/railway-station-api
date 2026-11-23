@@ -1,0 +1,9 @@
+Django>=5.1
+djangorestframework
+djangorestframework-simplejwt
+drf-spectacular
+psycopg2-binary
+flake8
+flake8-quotes
+flake8-variables-names
+pep8-naming

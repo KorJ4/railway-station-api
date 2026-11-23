@@ -1,9 +1,13 @@
 from datetime import datetime
 
 from django.db.models import Count, F, QuerySet
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework import mixins, serializers, viewsets
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 from station.models import (
     Crew,
@@ -65,6 +69,27 @@ class RouteViewSet(
 
         return queryset
 
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "source",
+                type=OpenApiTypes.STR,
+                description="Filter by source station name (ex. ?source=kyiv)",
+            ),
+            OpenApiParameter(
+                "destination",
+                type=OpenApiTypes.STR,
+                description=(
+                    "Filter by destination station name "
+                    "(ex. ?destination=lviv)"
+                ),
+            ),
+        ]
+    )
+    def list(self, request: Request, *args, **kwargs) -> Response:
+        """List routes with filters by source and destination"""
+        return super().list(request, *args, **kwargs)
+
     def get_serializer_class(self) -> type[serializers.Serializer]:
         if self.action == "list":
             return RouteListSerializer
@@ -99,6 +124,19 @@ class TrainViewSet(
             queryset = queryset.filter(train_type_id=int(train_type))
 
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "train_type",
+                type=OpenApiTypes.INT,
+                description="Filter by train type id (ex. ?train_type=2)",
+            ),
+        ]
+    )
+    def list(self, request: Request, *args, **kwargs) -> Response:
+        """List trains with filter by train type"""
+        return super().list(request, *args, **kwargs)
 
     def get_serializer_class(self) -> type[serializers.Serializer]:
         if self.action == "list":
@@ -157,6 +195,37 @@ class JourneyViewSet(viewsets.ModelViewSet):
             queryset = queryset.prefetch_related("tickets")
 
         return queryset
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                "source",
+                type=OpenApiTypes.STR,
+                description="Filter by source station name (ex. ?source=kyiv)",
+            ),
+            OpenApiParameter(
+                "destination",
+                type=OpenApiTypes.STR,
+                description=(
+                    "Filter by destination station name "
+                    "(ex. ?destination=lviv)"
+                ),
+            ),
+            OpenApiParameter(
+                "date",
+                type=OpenApiTypes.DATE,
+                description="Filter by departure date (ex. ?date=2026-12-01)",
+            ),
+            OpenApiParameter(
+                "train",
+                type=OpenApiTypes.INT,
+                description="Filter by train id (ex. ?train=1)",
+            ),
+        ]
+    )
+    def list(self, request: Request, *args, **kwargs) -> Response:
+        """List journeys with filters and available tickets"""
+        return super().list(request, *args, **kwargs)
 
     def get_serializer_class(self) -> type[serializers.Serializer]:
         if self.action == "list":

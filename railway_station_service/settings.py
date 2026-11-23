@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "drf_spectacular",
     "station",
     "user",
 ]
@@ -100,6 +101,29 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": (
         "station.permissions.IsAdminOrIfAuthenticatedReadOnly",
     ),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_THROTTLE_CLASSES": (
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ),
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "30/minute",
+        "user": "100/minute",
+    },
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Railway Station API",
+    "DESCRIPTION": "Book train tickets: stations, routes, trains, "
+    "journeys, crew and orders",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    "SWAGGER_UI_SETTINGS": {
+        "deepLinking": True,
+        "defaultModelRendering": "model",
+        "defaultModelsExpandDepth": 2,
+        "defaultModelExpandDepth": 2,
+    },
 }
 
 SIMPLE_JWT = {

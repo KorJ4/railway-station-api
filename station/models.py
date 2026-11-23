@@ -45,3 +45,34 @@ class Route(models.Model):
 
     def __str__(self) -> str:
         return f"{self.source} - {self.destination}"
+
+
+class TrainType(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    class Meta:
+        ordering = ["name"]
+
+    def __str__(self) -> str:
+        return self.name
+
+
+class Train(models.Model):
+    name = models.CharField(max_length=255)
+    cargo_num = models.PositiveIntegerField(help_text="Number of cars")
+    places_in_cargo = models.PositiveIntegerField(
+        help_text="Seats in one car"
+    )
+    train_type = models.ForeignKey(
+        TrainType, on_delete=models.PROTECT, related_name="trains"
+    )
+
+    class Meta:
+        ordering = ["name"]
+
+    @property
+    def capacity(self) -> int:
+        return self.cargo_num * self.places_in_cargo
+
+    def __str__(self) -> str:
+        return f"{self.name} ({self.train_type})"

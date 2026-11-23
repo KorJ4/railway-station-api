@@ -1,0 +1,411 @@
+[
+{
+  "model": "station.station",
+  "pk": 1,
+  "fields": {
+    "name": "Kyiv-Pasazhyrskyi",
+    "latitude": 50.4406,
+    "longitude": 30.4885
+  }
+},
+{
+  "model": "station.station",
+  "pk": 2,
+  "fields": {
+    "name": "Lviv",
+    "latitude": 49.8397,
+    "longitude": 23.9944
+  }
+},
+{
+  "model": "station.station",
+  "pk": 3,
+  "fields": {
+    "name": "Odesa-Holovna",
+    "latitude": 46.4685,
+    "longitude": 30.7411
+  }
+},
+{
+  "model": "station.station",
+  "pk": 4,
+  "fields": {
+    "name": "Kharkiv-Pasazhyrskyi",
+    "latitude": 49.9897,
+    "longitude": 36.2058
+  }
+},
+{
+  "model": "station.station",
+  "pk": 5,
+  "fields": {
+    "name": "Dnipro-Holovnyi",
+    "latitude": 48.4785,
+    "longitude": 35.0131
+  }
+},
+{
+  "model": "station.station",
+  "pk": 6,
+  "fields": {
+    "name": "Uzhhorod",
+    "latitude": 48.6155,
+    "longitude": 22.2955
+  }
+},
+{
+  "model": "station.route",
+  "pk": 1,
+  "fields": {
+    "source": 1,
+    "destination": 2,
+    "distance": 540
+  }
+},
+{
+  "model": "station.route",
+  "pk": 2,
+  "fields": {
+    "source": 2,
+    "destination": 1,
+    "distance": 540
+  }
+},
+{
+  "model": "station.route",
+  "pk": 3,
+  "fields": {
+    "source": 1,
+    "destination": 3,
+    "distance": 475
+  }
+},
+{
+  "model": "station.route",
+  "pk": 4,
+  "fields": {
+    "source": 1,
+    "destination": 4,
+    "distance": 480
+  }
+},
+{
+  "model": "station.route",
+  "pk": 5,
+  "fields": {
+    "source": 5,
+    "destination": 2,
+    "distance": 970
+  }
+},
+{
+  "model": "station.route",
+  "pk": 6,
+  "fields": {
+    "source": 1,
+    "destination": 6,
+    "distance": 800
+  }
+},
+{
+  "model": "station.traintype",
+  "pk": 1,
+  "fields": {
+    "name": "Intercity+"
+  }
+},
+{
+  "model": "station.traintype",
+  "pk": 2,
+  "fields": {
+    "name": "Night express"
+  }
+},
+{
+  "model": "station.traintype",
+  "pk": 3,
+  "fields": {
+    "name": "Regional"
+  }
+},
+{
+  "model": "station.train",
+  "pk": 1,
+  "fields": {
+    "name": "IC 743",
+    "cargo_num": 6,
+    "places_in_cargo": 60,
+    "train_type": 1
+  }
+},
+{
+  "model": "station.train",
+  "pk": 2,
+  "fields": {
+    "name": "IC 731",
+    "cargo_num": 8,
+    "places_in_cargo": 56,
+    "train_type": 1
+  }
+},
+{
+  "model": "station.train",
+  "pk": 3,
+  "fields": {
+    "name": "Night 105",
+    "cargo_num": 12,
+    "places_in_cargo": 36,
+    "train_type": 2
+  }
+},
+{
+  "model": "station.train",
+  "pk": 4,
+  "fields": {
+    "name": "Regional 815",
+    "cargo_num": 4,
+    "places_in_cargo": 80,
+    "train_type": 3
+  }
+},
+{
+  "model": "station.crew",
+  "pk": 1,
+  "fields": {
+    "first_name": "Ivan",
+    "last_name": "Koval"
+  }
+},
+{
+  "model": "station.crew",
+  "pk": 2,
+  "fields": {
+    "first_name": "Maria",
+    "last_name": "Bondar"
+  }
+},
+{
+  "model": "station.crew",
+  "pk": 3,
+  "fields": {
+    "first_name": "Petro",
+    "last_name": "Tkachenko"
+  }
+},
+{
+  "model": "station.crew",
+  "pk": 4,
+  "fields": {
+    "first_name": "Oksana",
+    "last_name": "Melnyk"
+  }
+},
+{
+  "model": "station.crew",
+  "pk": 5,
+  "fields": {
+    "first_name": "Andrii",
+    "last_name": "Kravets"
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 1,
+  "fields": {
+    "route": 1,
+    "train": 1,
+    "departure_time": "2026-12-01T06:00:00Z",
+    "arrival_time": "2026-12-01T11:00:00Z",
+    "crew": [
+      2,
+      1
+    ]
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 2,
+  "fields": {
+    "route": 2,
+    "train": 1,
+    "departure_time": "2026-12-02T06:00:00Z",
+    "arrival_time": "2026-12-02T11:00:00Z",
+    "crew": [
+      2,
+      1
+    ]
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 3,
+  "fields": {
+    "route": 3,
+    "train": 2,
+    "departure_time": "2026-12-01T18:00:00Z",
+    "arrival_time": "2026-12-02T00:30:00Z",
+    "crew": [
+      4,
+      3
+    ]
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 4,
+  "fields": {
+    "route": 4,
+    "train": 2,
+    "departure_time": "2026-12-03T06:00:00Z",
+    "arrival_time": "2026-12-03T11:00:00Z",
+    "crew": [
+      4,
+      3
+    ]
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 5,
+  "fields": {
+    "route": 5,
+    "train": 3,
+    "departure_time": "2026-12-02T20:24:00Z",
+    "arrival_time": "2026-12-03T09:24:00Z",
+    "crew": [
+      5,
+      4
+    ]
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 6,
+  "fields": {
+    "route": 6,
+    "train": 3,
+    "departure_time": "2026-12-04T20:24:00Z",
+    "arrival_time": "2026-12-05T08:24:00Z",
+    "crew": [
+      5
+    ]
+  }
+},
+{
+  "model": "station.journey",
+  "pk": 7,
+  "fields": {
+    "route": 1,
+    "train": 4,
+    "departure_time": "2026-12-05T06:00:00Z",
+    "arrival_time": "2026-12-05T13:00:00Z",
+    "crew": [
+      1
+    ]
+  }
+},
+{
+  "model": "station.ticket",
+  "pk": 1,
+  "fields": {
+    "cargo": 2,
+    "seat": 14,
+    "journey": 1,
+    "order": 1
+  }
+},
+{
+  "model": "station.ticket",
+  "pk": 2,
+  "fields": {
+    "cargo": 2,
+    "seat": 15,
+    "journey": 1,
+    "order": 1
+  }
+},
+{
+  "model": "station.ticket",
+  "pk": 3,
+  "fields": {
+    "cargo": 5,
+    "seat": 3,
+    "journey": 5,
+    "order": 2
+  }
+},
+{
+  "model": "station.ticket",
+  "pk": 4,
+  "fields": {
+    "cargo": 1,
+    "seat": 1,
+    "journey": 3,
+    "order": 3
+  }
+},
+{
+  "model": "user.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$ZDMs0vIxwU96zma7LBO1vI$K5Mwz96wu2MJuFs9hZTPyMnPe2tR0VjYUlLHvF5hPvA=",
+    "last_login": null,
+    "is_superuser": true,
+    "first_name": "Admin",
+    "last_name": "Railway",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-23T17:01:54.449Z",
+    "email": "admin@railway.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "user.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$h0u2PkDrR0KxNzqfG8XL0T$NQbNBBplcjwLp3F3QBarOlg26cwZDRUPcQwipEMJrdg=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "Olena",
+    "last_name": "Shevchenko",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-11-23T17:01:54.740Z",
+    "email": "passenger@railway.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "station.order",
+  "pk": 1,
+  "fields": {
+    "created_at": "2026-11-23T17:01:55.142Z",
+    "user": [
+      "passenger@railway.com"
+    ]
+  }
+},
+{
+  "model": "station.order",
+  "pk": 2,
+  "fields": {
+    "created_at": "2026-11-23T17:01:55.151Z",
+    "user": [
+      "passenger@railway.com"
+    ]
+  }
+},
+{
+  "model": "station.order",
+  "pk": 3,
+  "fields": {
+    "created_at": "2026-11-23T17:01:55.154Z",
+    "user": [
+      "admin@railway.com"
+    ]
+  }
+}
+]

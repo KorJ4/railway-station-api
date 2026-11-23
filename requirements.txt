@@ -1,7 +1,7 @@
 Django>=5.1
 djangorestframework
 djangorestframework-simplejwt
-drf-spectacular
+drf-spectacular[sidecar]
 psycopg2-binary
 flake8
 flake8-quotes

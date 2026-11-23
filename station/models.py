@@ -76,3 +76,46 @@ class Train(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} ({self.train_type})"
+
+
+class Crew(models.Model):
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ["last_name", "first_name"]
+
+    @property
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+    def __str__(self) -> str:
+        return self.full_name
+
+
+class Journey(models.Model):
+    route = models.ForeignKey(
+        Route, on_delete=models.CASCADE, related_name="journeys"
+    )
+    train = models.ForeignKey(
+        Train, on_delete=models.CASCADE, related_name="journeys"
+    )
+    departure_time = models.DateTimeField()
+    arrival_time = models.DateTimeField()
+    crew = models.ManyToManyField(Crew, related_name="journeys", blank=True)
+
+    class Meta:
+        ordering = ["departure_time"]
+
+    def clean(self) -> None:
+        if (
+            self.departure_time
+            and self.arrival_time
+            and self.arrival_time <= self.departure_time
+        ):
+            raise ValidationError(
+                {"arrival_time": "Arrival must be after departure."}
+            )
+
+    def __str__(self) -> str:
+        return f"{self.route} ({self.departure_time:%Y-%m-%d %H:%M})"

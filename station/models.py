@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import F, Q
@@ -119,3 +120,67 @@ class Journey(models.Model):
 
     def __str__(self) -> str:
         return f"{self.route} ({self.departure_time:%Y-%m-%d %H:%M})"
+
+
+class Order(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="orders",
+    )
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"Order #{self.pk} ({self.created_at:%Y-%m-%d %H:%M})"
+
+
+class Ticket(models.Model):
+    cargo = models.PositiveIntegerField()
+    seat = models.PositiveIntegerField()
+    journey = models.ForeignKey(
+        Journey, on_delete=models.CASCADE, related_name="tickets"
+    )
+    order = models.ForeignKey(
+        Order, on_delete=models.CASCADE, related_name="tickets"
+    )
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["journey", "cargo", "seat"],
+                name="unique_ticket_journey_cargo_seat",
+            ),
+        ]
+        ordering = ["cargo", "seat"]
+
+    @staticmethod
+    def validate_ticket(
+        cargo: int, seat: int, train: Train, error_to_raise: type
+    ) -> None:
+        for value, field_name, limit_name in [
+            (cargo, "cargo", "cargo_num"),
+            (seat, "seat", "places_in_cargo"),
+        ]:
+            limit = getattr(train, limit_name)
+            if not (1 <= value <= limit):
+                raise error_to_raise(
+                    {
+                        field_name: f"{field_name} must be in range "
+                        f"[1, {limit}], got {value}"
+                    }
+                )
+
+    def clean(self) -> None:
+        Ticket.validate_ticket(
+            self.cargo, self.seat, self.journey.train, ValidationError
+        )
+
+    def save(self, *args, **kwargs) -> None:
+        self.full_clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self) -> str:
+        return f"{self.journey} (cargo {self.cargo}, seat {self.seat})"
